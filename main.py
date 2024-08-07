@@ -44,6 +44,7 @@ print(loaded_recurrent_customers)
 #
 #
 # # Example usage
+
 # data_dict = {
 #     '2024-08-07': pd.DataFrame({
 #         'status': ['active', 'inactive', 'active'],
