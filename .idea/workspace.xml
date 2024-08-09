@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96399642-02aa-4cc6-a5bd-5f6b1049fa24" name="Changes" comment="Add weekly granularity">
+    <list default="true" id="96399642-02aa-4cc6-a5bd-5f6b1049fa24" name="Changes" comment="Refactor and divide code">
+      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/recurrent-customers-orders-weekly.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/recurrent-customers-orders-weekly.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/extract_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/extract_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/filter_and_count.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/filter_and_count.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/final.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/final.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/recurrent-customers-orders-by-store.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +68,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "settings.editor.selected.configurable": "PyScientificConfigurable",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -74,6 +79,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Francesco Bizzarri\Desktop\python-projects\glovo-cohort-analysis" />
       <recent name="C:\Users\Francesco Bizzarri\Desktop\python-projects\glovo-cohort-analysis\src" />
     </key>
   </component>
@@ -210,7 +216,7 @@
       <workItem from="1723133575021" duration="2000" />
       <workItem from="1723133727805" duration="155000" />
       <workItem from="1723133894195" duration="215000" />
-      <workItem from="1723192006610" duration="15126000" />
+      <workItem from="1723192006610" duration="18933000" />
     </task>
     <task id="LOCAL-00001" summary="Add DB connection and SQL query">
       <option name="closed" value="true" />
@@ -252,7 +258,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723208994122</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Refactor and divide code">
+      <option name="closed" value="true" />
+      <created>1723214308874</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1723214308874</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,11 +289,12 @@
     <MESSAGE value="Add plot" />
     <MESSAGE value="Add py file" />
     <MESSAGE value="Add weekly granularity" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add weekly granularity" />
+    <MESSAGE value="Refactor and divide code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor and divide code" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/glovo_cohort_analysis$main.coverage" NAME="main Coverage Results" MODIFIED="1723043071640" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/glovo_cohort_analysis$final.coverage" NAME="final Coverage Results" MODIFIED="1723214221258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/glovo_cohort_analysis$final.coverage" NAME="final Coverage Results" MODIFIED="1723216698670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/glovo_cohort_analysis$recurrent_customers_orders_weekly.coverage" NAME="recurrent-customers-orders-weekly Coverage Results" MODIFIED="1723210649780" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/glovo_cohort_analysis$recurrent_customers_orders_by_store.coverage" NAME="recurrent-customers-orders-by-store Coverage Results" MODIFIED="1723046994442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>

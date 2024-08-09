@@ -1,18 +1,12 @@
-import trino
-import pandas as pd
-import warnings
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-from tqdm import tqdm
 import pickle
-import os
+
 
 
 def filter_and_count_rc_orders(store_names, verticals):
-    with open('data/orders.pkl', 'rb') as file:
+    with open('../data/orders.pkl', 'rb') as file:
         orders_dict = pickle.load(file)
 
-    with open('data/recurrent_customers.pkl', 'rb') as file:
+    with open('../data/recurrent_customers.pkl', 'rb') as file:
         customers_dict = pickle.load(file)
 
     results = {}

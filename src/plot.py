@@ -1,16 +1,15 @@
-import trino
 import pandas as pd
-import warnings
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-from tqdm import tqdm
-import pickle
-import os
 import matplotlib.pyplot as plt
 import numpy as np
+from datetime import datetime
+import json
 
-def plot_results(results, timeframe):
-    print(results)
+def plot_results(results, timeframe, save_plot=True, show_plot=True, print_results_to_console=True):
+
+    if print_results_to_console:
+        pretty_dict = json.dumps(results, indent=4)
+        print(pretty_dict)
+
     dates = list(results.keys())
 
     if timeframe == 'monthly':
@@ -87,8 +86,14 @@ def plot_results(results, timeframe):
                 fontsize=8
             )
 
-
     ax.yaxis.set_visible(False)
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.savefig('monthly2.png')
+
+    if save_plot:
+        current_date = datetime.now().strftime('%d_%m_%Y')
+        filename = filename = f'../figures/{current_date}_export_{timeframe}'
+        plt.savefig(filename)
+
+    if show_plot:
+        plt.show()
