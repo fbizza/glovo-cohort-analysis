@@ -156,7 +156,7 @@ def process_queries(timeframe='monthly', n_periods=13):
     return recurrent_customers, orders
 
 
-def plot_results(results, timeframe='weekly'):
+def plot_results(results, timeframe):
     print(results)
     dates = list(results.keys())
 
@@ -213,24 +213,35 @@ def plot_results(results, timeframe='weekly'):
     for category in categories:
         add_labels(bars[category], category_percentages[category])
     add_labels(bars['rest'], rest_pct)
+    if timeframe == 'monthly':
+        for i, total in enumerate(totals):
+            ax.text(
+                i,
+                bottoms[i] + rest[i],
+                f'{total / 1e6:.2f}M',
+                ha='center',
+                va='bottom',
+                fontsize=8
+            )
+    elif (timeframe == 'weekly'):
+        for i, total in enumerate(totals):
+            ax.text(
+                i,
+                bottoms[i] + rest[i],
+                f'{total / 1e3:.0f}k',
+                ha='center',
+                va='bottom',
+                fontsize=8
+            )
 
-    for i, total in enumerate(totals):
-        ax.text(
-            i,
-            bottoms[i] + rest[i],
-            f'{total / 1e6:.2f}M',
-            ha='center',
-            va='bottom',
-            fontsize=8,
-        )
 
     ax.yaxis.set_visible(False)
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.savefig('weekly2.png')
+    plt.savefig('monthly2.png')
 
 
 # Example usage
-recurrent_customers, orders = process_queries(timeframe='weekly', n_periods=12)
+recurrent_customers, orders = process_queries(timeframe='monthly', n_periods=3)
 results = filter_and_count_rc_orders(recurrent_customers, orders, ["McDonald's", 'KFC'], ['QCommerce'])
-plot_results(results)
+plot_results(results, 'monthly')
