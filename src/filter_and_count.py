@@ -1,18 +1,18 @@
 import pickle
 
 
-def filter_and_count_rc_orders(store_names, verticals):
-    with open('../data/orders.pkl', 'rb') as file:
+def filter_and_count_rc_orders(timeframe, store_names, verticals):
+    with open(f'../data/{timeframe}/orders.pkl', 'rb') as file:
         orders_dict = pickle.load(file)
 
-    with open('../data/recurrent_customers.pkl', 'rb') as file:
+    with open(f'../data/{timeframe}/recurrent_customers.pkl', 'rb') as file:
         customers_dict = pickle.load(file)
 
     results = {}
     for time_span in customers_dict:
         if time_span in orders_dict:
             customers_df = customers_dict[time_span]
-            orders_df = orders_dict[time_span]
+            orders_df = orders_dict[time_span].drop_duplicates(subset='order_id')
             n_orders_by_recurrent_customers = int(orders_df['customer_id'].isin(customers_df['customer_id']).sum())
             results[time_span] = {}
             results[time_span]['total'] = n_orders_by_recurrent_customers
@@ -32,10 +32,10 @@ def filter_and_count_rc_orders(store_names, verticals):
     return results
 
 def filter_and_count_promo_yes_no(timeframe, store_names, verticals):
-    with open(f'../data/orders_{timeframe}.pkl', 'rb') as file:
+    with open(f'../data/{timeframe}/orders.pkl', 'rb') as file:
         orders_dict = pickle.load(file)
 
-    with open(f'../data/recurrent_customers_{timeframe}.pkl', 'rb') as file:
+    with open(f'../data/{timeframe}/recurrent_customers.pkl', 'rb') as file:
         customers_dict = pickle.load(file)
 
     results = {}

@@ -124,8 +124,8 @@ def process_queries(timeframe, n_periods=3):
             orders[f"{start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"] = df_orders
         print("Completed processing all periods.")
     os.makedirs('../data', exist_ok=True)
-    with open(f'../data/recurrent_customers_{timeframe}.pkl', 'wb') as file:
+    with open(f'../data/{timeframe}/recurrent_customers.pkl', 'wb') as file:
         pickle.dump(recurrent_customers, file)
-    with open(f'../data/orders_{timeframe}.pkl', 'wb') as file:
+    with open(f'../data/{timeframe}/orders.pkl', 'wb') as file:
         pickle.dump(orders, file)
     print("Recurrent customers and orders saved into files")

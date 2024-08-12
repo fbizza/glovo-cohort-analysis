@@ -66,27 +66,17 @@ def plot_results(results, timeframe, save_plot=True, show_plot=True, print_resul
         add_labels(bars[category], category_percentages[category])
     add_labels(bars['rest'], rest_pct)
 
-    #TODO refactor and unify code
-    if timeframe == 'monthly':
-        for i, total in enumerate(totals):
-            ax.text(
-                i,
-                bottoms[i] + rest[i],
-                f'{total / 1e6:.2f}M',
-                ha='center',
-                va='bottom',
-                fontsize=8
-            )
-    elif (timeframe == 'weekly'):
-        for i, total in enumerate(totals):
-            ax.text(
-                i,
-                bottoms[i] + rest[i],
-                f'{total / 1e3:.0f}k',
-                ha='center',
-                va='bottom',
-                fontsize=8
-            )
+
+    for i, total in enumerate(totals):
+        ax.text(
+            i,
+            bottoms[i] + rest[i],
+            f'{total / 1e6:.2f}M' if timeframe == 'monthly' else f'{total / 1e3:.0f}k',
+            ha='center',
+            va='bottom',
+            fontsize=8,
+            fontweight='bold'
+        )
 
     ax.yaxis.set_visible(False)
     plt.xticks(rotation=45)
@@ -94,7 +84,7 @@ def plot_results(results, timeframe, save_plot=True, show_plot=True, print_resul
 
     if save_plot:
         current_date = datetime.now().strftime('%d_%m_%Y')
-        filename = filename = f'../figures/{current_date}_export_{timeframe}'
+        filename = f'../figures/{timeframe}/{current_date}_export_stores'
         plt.savefig(filename)
 
     if show_plot:
@@ -169,7 +159,7 @@ def plot_promo_yes_no_results(results, timeframe, save_plot=True, show_plot=True
 
     if save_plot:
         current_date = datetime.now().strftime('%d_%m_%Y')
-        filename = f'../figures/{current_date}_export_{timeframe}_promo.png'
+        filename = f'../figures/{timeframe}/{current_date}_export_promo_yes_no.png'
         plt.savefig(filename)
 
     if show_plot:
