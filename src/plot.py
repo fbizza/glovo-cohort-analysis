@@ -65,6 +65,8 @@ def plot_results(results, timeframe, save_plot=True, show_plot=True, print_resul
     for category in categories:
         add_labels(bars[category], category_percentages[category])
     add_labels(bars['rest'], rest_pct)
+
+    #TODO refactor and unify code
     if timeframe == 'monthly':
         for i, total in enumerate(totals):
             ax.text(
