@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96399642-02aa-4cc6-a5bd-5f6b1049fa24" name="Changes" comment="Add directories to save images and dictionaries">
+    <list default="true" id="96399642-02aa-4cc6-a5bd-5f6b1049fa24" name="Changes" comment="Update gitignore">
       <change afterPath="$PROJECT_DIR$/data/orders.pkl" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/data/recurrent_customers.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/extract_data_promo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/filter_and_count_promo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/final_promo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/plot_promo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/final.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/final.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/filter_and_count.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/filter_and_count.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/filter_and_count_promo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/final_promo.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/final_promo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plot_promo.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +270,7 @@
       <workItem from="1723133727805" duration="155000" />
       <workItem from="1723133894195" duration="215000" />
       <workItem from="1723192006610" duration="19114000" />
-      <workItem from="1723452154946" duration="14989000" />
+      <workItem from="1723452154946" duration="15733000" />
     </task>
     <task id="LOCAL-00001" summary="Add DB connection and SQL query">
       <option name="closed" value="true" />
@@ -329,11 +328,38 @@
       <option name="project" value="LOCAL" />
       <updated>1723221263311</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Add promo orders percentages">
+      <option name="closed" value="true" />
+      <created>1723472697811</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1723472697811</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Update gitignore">
+      <option name="closed" value="true" />
+      <created>1723472783147</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1723472783147</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="GitHub.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -355,7 +381,9 @@
     <MESSAGE value="Refactor and divide code" />
     <MESSAGE value="Refactor code" />
     <MESSAGE value="Add directories to save images and dictionaries" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add directories to save images and dictionaries" />
+    <MESSAGE value="Add promo orders percentages" />
+    <MESSAGE value="Update gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update gitignore" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/glovo_cohort_analysis$plot_promo.coverage" NAME="plot_promo Coverage Results" MODIFIED="1723471966100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
@@ -363,6 +391,6 @@
     <SUITE FILE_PATH="coverage/glovo_cohort_analysis$final.coverage" NAME="final Coverage Results" MODIFIED="1723454018632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/glovo_cohort_analysis$recurrent_customers_orders_weekly.coverage" NAME="recurrent-customers-orders-weekly Coverage Results" MODIFIED="1723210649780" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/glovo_cohort_analysis$recurrent_customers_orders_by_store.coverage" NAME="recurrent-customers-orders-by-store Coverage Results" MODIFIED="1723046994442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/glovo_cohort_analysis$final_promo.coverage" NAME="final_promo Coverage Results" MODIFIED="1723472474860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/glovo_cohort_analysis$final_promo.coverage" NAME="final_promo Coverage Results" MODIFIED="1723473110896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>
