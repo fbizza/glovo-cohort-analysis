@@ -73,3 +73,47 @@ def filter_and_count_promo_yes_no(timeframe, store_names, verticals):
             }
 
     return results
+
+def filter_and_count_rc_orders_top_cities(timeframe, cities):
+    with open(f'../data/{timeframe}/orders.pkl', 'rb') as file:
+        orders_dict = pickle.load(file)
+
+    with open(f'../data/{timeframe}/recurrent_customers.pkl', 'rb') as file:
+        customers_dict = pickle.load(file)
+
+    results = {}
+    for time_span in customers_dict:
+        if time_span in orders_dict:
+            customers_df = customers_dict[time_span]
+            orders_df = orders_dict[time_span].drop_duplicates(subset='order_id')
+            n_orders_by_recurrent_customers = int(orders_df['customer_id'].isin(customers_df['customer_id']).sum())
+            results[time_span] = {}
+            results[time_span]['total'] = n_orders_by_recurrent_customers
+            results[time_span]['rest'] = n_orders_by_recurrent_customers
+            for city in cities:
+                store_orders_df = orders_df[orders_df['order_city_code'] == city]
+                n_store_orders_by_recurrent_customers = int(store_orders_df['customer_id'].isin(customers_df['customer_id']).sum())
+                results[time_span][city] = n_store_orders_by_recurrent_customers
+                results[time_span]['rest'] -= n_store_orders_by_recurrent_customers
+    return results
+
+def filter_and_count_rc_orders_prime_yes_no(timeframe, prime_list):
+    with open(f'../data/{timeframe}/orders.pkl', 'rb') as file:
+        orders_dict = pickle.load(file)
+
+    with open(f'../data/{timeframe}/recurrent_customers.pkl', 'rb') as file:
+        customers_dict = pickle.load(file)
+
+    results = {}
+    for time_span in customers_dict:
+        if time_span in orders_dict:
+            customers_df = customers_dict[time_span]
+            orders_df = orders_dict[time_span].drop_duplicates(subset='order_id')
+            n_orders_by_recurrent_customers = int(orders_df['customer_id'].isin(customers_df['customer_id']).sum())
+            results[time_span] = {}
+            results[time_span]['total'] = n_orders_by_recurrent_customers
+            for bool in prime_list:
+                store_orders_df = orders_df[orders_df['order_is_prime'] == bool]
+                n_store_orders_by_recurrent_customers = int(store_orders_df['customer_id'].isin(customers_df['customer_id']).sum())
+                results[time_span][bool] = n_store_orders_by_recurrent_customers
+    return results
