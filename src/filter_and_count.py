@@ -32,10 +32,10 @@ def filter_and_count_rc_orders(timeframe, store_names, verticals):
     return results
 
 def filter_and_count_promo_yes_no(timeframe, store_names, verticals):
-    with open(f'../data/{timeframe}/orders.pkl', 'rb') as file:
+    with open(f'../data/promo_data/{timeframe}/orders.pkl', 'rb') as file:
         orders_dict = pickle.load(file)
 
-    with open(f'../data/{timeframe}/recurrent_customers.pkl', 'rb') as file:
+    with open(f'../data/promo_data/{timeframe}/recurrent_customers.pkl', 'rb') as file:
         customers_dict = pickle.load(file)
 
     results = {}

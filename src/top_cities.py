@@ -1,6 +1,6 @@
 import extract_data, filter_and_count, plot
 
-timeframe = 'monthly'
+timeframe = 'weekly'
 n_periods = 13
 cities = ['WAW', 'KRA', 'LOD', 'GDN', 'WRO', 'POZ']
 
