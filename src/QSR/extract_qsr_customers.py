@@ -32,7 +32,7 @@ def run_queries(queries):
 def extract_customers_acquired_through_qsr(period_start_date, period_end_date, store_names):
     # Convert the list of store names to a string that can be used in the SQL IN clause
     store_names_str = ', '.join(f"'{store}'" for store in store_names)
-    print(store_names_str)
+    print(f"QSR List: {store_names_str}")
 
     qsr_query = f"""
     SELECT DISTINCT customer_id
@@ -79,9 +79,3 @@ def get_qsr_data(period_start_date, period_end_date, store_names, update=True):
 
     return qsr, not_qsr
 
-
-# Example usage
-qsr_customers, not_qsr_customers = get_qsr_data('2024-08-01', '2024-09-01', ["McDonald''s", "KFC"], update=False)
-
-print(qsr_customers)
-print(not_qsr_customers)
