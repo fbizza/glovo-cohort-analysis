@@ -45,20 +45,39 @@ def compute_metrics(customers_dfs):
         HAVING COUNT(o.order_id) >= 2
         """
 
+        # avg order value (AOV) and avg contribution margin (CM)
+        query_aov_cm = f"""
+              SELECT
+                  customer_id,
+                  ROUND(AVG(order_total_purchase_local*1.00), 2) AS aov,
+                  AVG(contribution_margin_eur) AS avg_contribution_margin_eur
+              FROM delta.central_order_descriptors_odp.order_descriptors_v2 o
+              LEFT JOIN delta.finance_financial_reports_odp.pnl_order_level f
+              ON o.order_id = f.order_id
+              WHERE order_final_status = 'DeliveredStatus'
+                AND order_parent_relationship_type IS NULL
+                AND customer_id IN ({customer_ids_str})
+              GROUP BY customer_id
+              """
+
         # Run the queries
-        results = run_queries([query_stores, query_frequency, query_retention])
-        result_stores, result_frequency, result_retention = results
+        results = run_queries([query_stores, query_frequency, query_retention, query_aov_cm])
+        result_stores, result_frequency, result_retention, result_aov_cm = results
 
         # Compute the metrics
         avg_n_stores = round(float(result_stores['n_stores'].mean()), 3)
         avg_order_frequency = round(float(result_frequency['order_frequency'].mean()), 3)
         retention_rate = round((len(result_retention) / len(customer_ids)) * 100, 2)
+        avg_aov = round(float(result_aov_cm['aov'].mean()), 2)
+        avg_cm_eur = round(float(result_aov_cm['avg_contribution_margin_eur'].mean()), 2)
 
         # Save metrics in the dictionary
         metrics_dict[df.name] = {
             'avg_n_stores': avg_n_stores,
             'avg_order_frequency': avg_order_frequency,
             'retention_rate': retention_rate,
+            'avg_aov': avg_aov,
+            'avg_cm': avg_cm
         }
 
     return metrics_dict
