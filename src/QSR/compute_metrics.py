@@ -1,4 +1,5 @@
 from extract_qsr_customers import get_qsr_data, run_queries
+from plot_results import plot_dictionaries
 def compute_metrics(customers_dfs):
     metrics_dict = {}
 
@@ -77,7 +78,7 @@ def compute_metrics(customers_dfs):
             'avg_order_frequency': avg_order_frequency,
             'retention_rate': retention_rate,
             'avg_aov': avg_aov,
-            'avg_cm': avg_cm
+            'avg_cm': avg_cm_eur
         }
 
     return metrics_dict
@@ -92,3 +93,4 @@ if __name__ == "__main__":
 
     print("Metrics for QSR customers:", metrics_dict['qsr_customers'])
     print("Metrics for non-QSR customers:", metrics_dict['not_qsr_customers'])
+    plot_dictionaries(metrics_dict)
