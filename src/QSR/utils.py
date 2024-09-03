@@ -1,14 +1,41 @@
-from datetime import datetime
 import time
 import trino
 import pandas as pd
 import warnings
-from datetime import datetime, timedelta
+from datetime import datetime
 from tqdm import tqdm
 import contextlib
 import io
-from extract_qsr_customers import run_queries
-from extract_qsr_customers import get_qsr_data
+
+
+# Set up DB connection
+HOST = 'starburst.g8s-data-platform-prod.glovoint.com'
+PORT = 443
+conn_details = {
+    'host': HOST,
+    'port': PORT,
+    'http_scheme': 'https',
+    'auth': trino.auth.OAuth2Authentication()
+}
+
+
+def run_queries(queries, verbose=True):
+    time.sleep(0.1)
+    results = []
+    with trino.dbapi.connect(**conn_details) as conn:
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=UserWarning)
+            if verbose:
+                for query in tqdm(queries, desc="Running queries"):
+                    with contextlib.redirect_stdout(io.StringIO()):  # remove this line to print the link to login page for setting up the connection
+                        result = pd.read_sql_query(query, conn)
+                    results.append(result)
+            else:
+                for query in queries:
+                    with contextlib.redirect_stdout(io.StringIO()):  # remove this line to print the link to login page for setting up the connection
+                        result = pd.read_sql_query(query, conn)
+                    results.append(result)
+    return results
 
 def generate_completed_months(start_date_str, end_date_str):
     start_date = datetime.strptime(start_date_str, '%Y-%m-%d')
@@ -60,3 +87,22 @@ def retention_of_given_month(df_customers_from_previous_period, initial_number_o
     print(f"\nNumber of retained customers during {month}: {retained_customers.size}")
     print(f"Percentage of initial customers retained: {percentage}")
     return retained_customers, percentage
+
+
+def retention_since_given_period(start_date, end_date, list_of_customers_df, customer_cohort_names):
+    months = generate_completed_months(start_date, end_date)
+    print("Generating retention evolution for the following months: ", months)
+    retentions = []
+    for customer_cohort in list_of_customers_df:
+        retention_list = []
+        previous_month_customers = customer_cohort
+        n_of_customers = customer_cohort.shape[0]
+        for month in months:
+            retained_customers, percentage = retention_of_given_month(previous_month_customers, n_of_customers, month)
+            retention_list.append(percentage)
+            previous_month_customers = retained_customers
+        retentions.append(retention_list)
+
+    df = pd.DataFrame(retentions, columns=months, index=customer_cohort_names)
+
+    return df

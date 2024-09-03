@@ -1,4 +1,5 @@
-from extract_qsr_customers import get_qsr_data, run_queries
+from extract_qsr_customers import get_qsr_data
+from utils import run_queries
 from plot_results import plot_dictionaries
 
 def compute_metrics(customers_dfs):

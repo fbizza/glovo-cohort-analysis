@@ -9,34 +9,7 @@ import pickle
 import os
 import contextlib
 import io
-
-# Set up DB connection
-HOST = 'starburst.g8s-data-platform-prod.glovoint.com'
-PORT = 443
-conn_details = {
-    'host': HOST,
-    'port': PORT,
-    'http_scheme': 'https',
-    'auth': trino.auth.OAuth2Authentication()
-}
-
-
-def run_queries(queries, verbose=True):
-    time.sleep(0.01)
-    results = []
-    with trino.dbapi.connect(**conn_details) as conn:
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", category=UserWarning)
-            if verbose:
-                for query in tqdm(queries, desc="Running queries"):
-                    with contextlib.redirect_stdout(io.StringIO()):  # remove this line to print the link to login page for setting up the connection
-                        result = pd.read_sql_query(query, conn)
-            else:
-                for query in queries:
-                    with contextlib.redirect_stdout(io.StringIO()):  # remove this line to print the link to login page for setting up the connection
-                        result = pd.read_sql_query(query, conn)
-            results.append(result)
-    return results
+from utils import run_queries
 
 
 def extract_customers_acquired_through_qsr(period_start_date, period_end_date, store_names):
