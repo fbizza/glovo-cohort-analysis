@@ -21,16 +21,21 @@ conn_details = {
 }
 
 
-def run_queries(queries):
-    time.sleep(0.0001)
+def run_queries(queries, verbose=True):
+    time.sleep(0.01)
     results = []
     with trino.dbapi.connect(**conn_details) as conn:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", category=UserWarning)
-            for query in tqdm(queries, desc="Running queries"):
-                with contextlib.redirect_stdout(io.StringIO()):  # remove this line to print the link to login page for setting up the connection
-                    result = pd.read_sql_query(query, conn)
-                results.append(result)
+            if verbose:
+                for query in tqdm(queries, desc="Running queries"):
+                    with contextlib.redirect_stdout(io.StringIO()):  # remove this line to print the link to login page for setting up the connection
+                        result = pd.read_sql_query(query, conn)
+            else:
+                for query in queries:
+                    with contextlib.redirect_stdout(io.StringIO()):  # remove this line to print the link to login page for setting up the connection
+                        result = pd.read_sql_query(query, conn)
+            results.append(result)
     return results
 
 
@@ -77,10 +82,12 @@ def get_qsr_data(period_start_date, period_end_date, store_names, update=True):
 
         qsr.to_pickle('data/customers/qsr_customers.pkl')
         not_qsr.to_pickle('data/customers/not_qsr_customers.pkl')
+        print("Update completed")
     else:
         print("Loading customers data...")
         qsr = pd.read_pickle('data/customers/qsr_customers.pkl')
         not_qsr = pd.read_pickle('data/customers/not_qsr_customers.pkl')
+        print("Loading completed")
 
     return qsr, not_qsr
 

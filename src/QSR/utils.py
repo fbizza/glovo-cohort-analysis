@@ -36,8 +36,6 @@ def generate_completed_months(start_date_str, end_date_str):
 
     return completed_months
 
-month = '2024-06-01'
-qsr_customers, not_qsr_customers = get_qsr_data('2024-01-01', '2024-02-01', ["McDonald''s"], update=False)
 
 def ordered_during_month(customers_df, month):
     customer_ids = customers_df['customer_id'].astype(int).tolist()
@@ -53,20 +51,12 @@ def ordered_during_month(customers_df, month):
       AND date (date_trunc('month', order_started_local_at)) = date '{month}'
 
     """
-    df = run_queries([sql_query])
+    df = run_queries([sql_query], verbose=False)
     return df[0]
 
-# # Example usage
-# start_date = '2024-07-26'
-# end_date = '2024-12-26'
-# print(generate_completed_months(start_date, end_date))
-
-def cohort_of_given_month(df_customers_from_previous_period, month):
+def retention_of_given_month(df_customers_from_previous_period, initial_number_of_customers, month):
     retained_customers = ordered_during_month(df_customers_from_previous_period, month)
-    print("Number of customers from previous period", len(df_customers_from_previous_period))
-    print("Number of retained customers", retained_customers.size)
-    percentage = round(retained_customers.shape[0]/ len(df_customers_from_previous_period), 3)
-    print("Percentage of retained customers: ", percentage)
-
-
-cohort_of_given_month(qsr_customers, month)
+    percentage = round(retained_customers.shape[0] / initial_number_of_customers, 3)
+    print(f"\nNumber of retained customers during {month}: {retained_customers.size}")
+    print(f"Percentage of initial customers retained: {percentage}")
+    return retained_customers, percentage
