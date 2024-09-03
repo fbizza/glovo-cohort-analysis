@@ -1,5 +1,6 @@
 from extract_qsr_customers import get_qsr_data, run_queries
 from plot_results import plot_dictionaries
+
 def compute_metrics(customers_dfs):
     metrics_dict = {}
 
@@ -7,7 +8,7 @@ def compute_metrics(customers_dfs):
 
         customer_ids = df['customer_id'].astype(int).tolist()
         customer_ids_str = ', '.join(str(customer_id) for customer_id in customer_ids)
-        print(f"Processing cohort {i} ({len(customer_ids)} customers)...")
+        print(f"\nProcessing cohort {i} ({len(customer_ids)} customers)...")
 
         # avg number of different stores customers ordered from
         query_stores = f"""
@@ -61,26 +62,39 @@ def compute_metrics(customers_dfs):
               GROUP BY customer_id
               """
 
-        # Run the queries
-        results = run_queries([query_stores, query_frequency, query_retention, query_aov_cm])
-        result_stores, result_frequency, result_retention, result_aov_cm = results
+        # percentage of negative CM orders
+        query_negative_cm_percentage = f"""
+                SELECT
+                    customer_id,
+                    1.000 * COUNT(CASE WHEN contribution_margin_eur < 0 THEN o.order_id ELSE NULL END) / COUNT(o.order_id) AS negative_cm_orders_percentage
+                FROM delta.central_order_descriptors_odp.order_descriptors_v2 o
+                LEFT JOIN delta.finance_financial_reports_odp.pnl_order_level f
+                ON o.order_id = f.order_id
+                WHERE order_final_status = 'DeliveredStatus'
+                  AND order_parent_relationship_type IS NULL
+                  AND customer_id IN ({customer_ids_str})
+                GROUP BY customer_id
+                """
 
+        # Run the queries
+        results = run_queries([query_stores, query_frequency, query_retention, query_aov_cm, query_negative_cm_percentage])
+        result_stores, result_frequency, result_retention, result_aov_cm, result_negative_cm_percentage = results
         # Compute the metrics
         avg_n_stores = round(float(result_stores['n_stores'].mean()), 3)
         avg_order_frequency = round(float(result_frequency['order_frequency'].mean()), 3)
-        retention_rate = round((len(result_retention) / len(customer_ids)) * 100, 2)
+        retention_rate = round(len(result_retention) / len(customer_ids), 4)
         avg_aov = round(float(result_aov_cm['aov'].mean()), 2)
         avg_cm_eur = round(float(result_aov_cm['avg_contribution_margin_eur'].mean()), 2)
-
+        negative_cm_orders_percentage = round(float(result_negative_cm_percentage['negative_cm_orders_percentage'].mean()), 4)
         # Save metrics in the dictionary
         metrics_dict[df.name] = {
             'avg_n_stores': avg_n_stores,
             'avg_order_frequency': avg_order_frequency,
-            'retention_rate': retention_rate,
+            'retention_percentage': retention_rate,
             'avg_aov': avg_aov,
-            'avg_cm': avg_cm_eur
+            'avg_cm': avg_cm_eur,
+            'negative_cm_orders_percentage': negative_cm_orders_percentage
         }
-
     return metrics_dict
 
 # Example usage

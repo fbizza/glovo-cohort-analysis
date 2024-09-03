@@ -48,13 +48,13 @@ def plot_dictionaries(dict_of_dicts, max_plots_per_row=3, colors=None):
     plt.tight_layout()
     plt.show()
 
+if __name__ == "__main__":
+    # example usage
+    dict_of_dicts = {
+        'Dict1': {'avg_n_stores': 1.886, 'avg_order_frequency': 4.536, 'retention_rate': 57.19, 'avg_aov': 63.41, 'avg_cm': 1.04, 'negative_cm_orders_percentage': 0.289},
+        'Dict2': {'avg_n_stores': 2.485, 'avg_order_frequency': 5.084, 'retention_rate': 57.53, 'avg_aov': 69.01, 'avg_cm': 1.22, 'negative_cm_orders_percentage': 0.263}
+    }
 
-# example usage
-dict_of_dicts = {
-    'Dict1': {'avg_n_stores': 1.886, 'avg_order_frequency': 4.536, 'retention_rate': 57.19, 'avg_aov': 63.41, 'avg_cm': 1.04},
-    'Dict2': {'avg_n_stores': 2.485, 'avg_order_frequency': 5.084, 'retention_rate': 57.53, 'avg_aov': 69.01, 'avg_cm': 1.22}
-}
+    colors = ['blue', 'green']
 
-colors = ['blue', 'green']
-
-plot_dictionaries(dict_of_dicts, colors=colors)
+    plot_dictionaries(dict_of_dicts, colors=colors)

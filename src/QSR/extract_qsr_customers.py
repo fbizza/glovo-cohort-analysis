@@ -1,3 +1,5 @@
+import time
+
 import trino
 import pandas as pd
 import warnings
@@ -6,6 +8,8 @@ from dateutil.relativedelta import relativedelta
 from tqdm import tqdm
 import pickle
 import os
+import contextlib
+import io
 
 # Set up DB connection
 HOST = 'starburst.g8s-data-platform-prod.glovoint.com'
@@ -19,12 +23,14 @@ conn_details = {
 
 
 def run_queries(queries):
+    time.sleep(0.0001)
     results = []
     with trino.dbapi.connect(**conn_details) as conn:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", category=UserWarning)
             for query in tqdm(queries, desc="Running queries"):
-                result = pd.read_sql_query(query, conn)
+                with contextlib.redirect_stdout(io.StringIO()):  # remove this line to print the link to login page for setting up the connection
+                    result = pd.read_sql_query(query, conn)
                 results.append(result)
     return results
 
