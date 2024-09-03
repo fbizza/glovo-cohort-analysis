@@ -99,7 +99,7 @@ def compute_metrics(customers_dfs):
 
 # Example usage
 if __name__ == "__main__":
-    qsr_customers, not_qsr_customers = get_qsr_data('2024-01-01', '2024-02-01', ["McDonald''s"], update=False)
+    qsr_customers, not_qsr_customers = get_qsr_data('2024-01-01', '2024-01-31', ["McDonald''s"], update=True)
     qsr_customers.name = 'qsr_customers'
     not_qsr_customers.name = 'not_qsr_customers'
     customers_dfs = [qsr_customers, not_qsr_customers]
