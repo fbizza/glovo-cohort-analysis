@@ -77,9 +77,23 @@ def compute_metrics(customers_dfs):
                 GROUP BY customer_id
                 """
 
+        # for computing percentage of customers who became prime users
+        query_count_prime_orders = f"""
+                        SELECT
+                            customer_id,
+                            COUNT(CASE WHEN o.order_is_prime THEN o.order_id ELSE NULL END) as prime_orders_count
+                        FROM delta.central_order_descriptors_odp.order_descriptors_v2 o
+                        LEFT JOIN delta.finance_financial_reports_odp.pnl_order_level f
+                        ON o.order_id = f.order_id
+                        WHERE order_final_status = 'DeliveredStatus'
+                          AND order_parent_relationship_type IS NULL
+                          AND customer_id IN ({customer_ids_str})
+                        GROUP BY customer_id
+                        """
+
         # Run the queries
-        results = run_queries([query_stores, query_frequency, query_retention, query_aov_cm, query_negative_cm_percentage])
-        result_stores, result_frequency, result_retention, result_aov_cm, result_negative_cm_percentage = results
+        results = run_queries([query_stores, query_frequency, query_retention, query_aov_cm, query_negative_cm_percentage, query_count_prime_orders])
+        result_stores, result_frequency, result_retention, result_aov_cm, result_negative_cm_percentage, result_prime_orders = results
         # Compute the metrics
         avg_n_stores = round(float(result_stores['n_stores'].mean()), 3)
         avg_order_frequency = round(float(result_frequency['order_frequency'].mean()), 3)
@@ -87,6 +101,8 @@ def compute_metrics(customers_dfs):
         avg_aov = round(float(result_aov_cm['aov'].mean()), 2)
         avg_cm_eur = round(float(result_aov_cm['avg_contribution_margin_eur'].mean()), 2)
         negative_cm_orders_percentage = round(float(result_negative_cm_percentage['negative_cm_orders_percentage'].mean()), 4)
+        prime_users_percentage = round(len(result_prime_orders[result_prime_orders['prime_orders_count'] > 0]) / len(customer_ids), 4)
+
         # Save metrics in the dictionary
         metrics_dict[df.name] = {
             'avg_n_stores': avg_n_stores,
@@ -94,13 +110,14 @@ def compute_metrics(customers_dfs):
             'retention_percentage': retention_rate,
             'avg_aov': avg_aov,
             'avg_cm': avg_cm_eur,
-            'negative_cm_orders_percentage': negative_cm_orders_percentage
+            'negative_cm_orders_percentage': negative_cm_orders_percentage,
+            'prime_users_percentage': prime_users_percentage
         }
     return metrics_dict
 
 # Example usage
 if __name__ == "__main__":
-    qsr_customers, not_qsr_customers = get_qsr_data('2024-01-01', '2024-01-31', ["McDonald''s"], update=True)
+    qsr_customers, not_qsr_customers = get_qsr_data('2024-01-01', '2024-01-31', ["McDonald''s"], update=False)
     qsr_customers.name = 'qsr_customers'
     not_qsr_customers.name = 'not_qsr_customers'
     customers_dfs = [qsr_customers, not_qsr_customers]

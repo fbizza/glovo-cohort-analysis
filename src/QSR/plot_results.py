@@ -32,14 +32,18 @@ def plot_dictionaries(dict_of_dicts, max_plots_per_row=3, colors=None):
         axes[i].set_xticklabels(main_keys)
 
         # adjust y-axis to highlight differences
-        lower = 0.6  # bigger values to highlight small differences
-        upper = 0.1
+        min_val = min(values)
         max_val = max(values)
-        axes[i].set_ylim(lower * max_val, max_val + upper * max_val)
+        lower = min_val - 0.1 * max_val if min_val > 0 else min_val - 0.1 * abs(min_val)
+        upper = max_val + 0.1 * max_val
+        axes[i].set_ylim(lower, upper)
 
         # annotate bars with their values
         for j, value in enumerate(values):
-            axes[i].text(j, value, f'{value:.2f}', ha='center', va='bottom')
+            if sub_key in ['prime_users_percentage', 'retention_percentage', 'negative_cm_orders_percentage']:
+                axes[i].text(j, value, f'{value*100:.2f}%', ha='center', va='bottom')
+            else:
+                axes[i].text(j, value, f'{value:.2f}', ha='center', va='bottom')
 
     # hide any unused subplots, useful if n_subplots is not multiple of 3
     for j in range(i + 1, len(axes)):
@@ -51,8 +55,8 @@ def plot_dictionaries(dict_of_dicts, max_plots_per_row=3, colors=None):
 if __name__ == "__main__":
     # example usage
     dict_of_dicts = {
-        'Dict1': {'avg_n_stores': 1.886, 'avg_order_frequency': 4.536, 'retention_rate': 57.19, 'avg_aov': 63.41, 'avg_cm': 1.04, 'negative_cm_orders_percentage': 0.289},
-        'Dict2': {'avg_n_stores': 2.485, 'avg_order_frequency': 5.084, 'retention_rate': 57.53, 'avg_aov': 69.01, 'avg_cm': 1.22, 'negative_cm_orders_percentage': 0.263}
+        'Dict1': {'avg_n_stores': 1.886, 'avg_order_frequency': 4.55, 'retention_percentage': 0.5728, 'avg_aov': 63.51, 'avg_cm': 1.04, 'negative_cm_orders_percentage': 0.2893, 'prime_users_percentage': 0.0201},
+        'Dict2': {'avg_n_stores': 2.493, 'avg_order_frequency': 5.112, 'retention_percentage': 0.5764, 'avg_aov': 68.93, 'avg_cm': 1.22, 'negative_cm_orders_percentage': 0.264, 'prime_users_percentage': 0.0377}
     }
 
     colors = ['blue', 'green']
