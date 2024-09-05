@@ -40,7 +40,7 @@ def plot_dictionaries(dict_of_dicts, max_plots_per_row=3, colors=None):
 
         # annotate bars with their values
         for j, value in enumerate(values):
-            if sub_key in ['prime_users_percentage', 'retention_percentage', 'negative_cm_orders_percentage']:
+            if sub_key in ['prime_users_percentage', 'retention_percentage', 'negative_cm_orders_percentage', 'promo_percentage']:
                 axes[i].text(j, value, f'{value*100:.2f}%', ha='center', va='bottom')
             else:
                 axes[i].text(j, value, f'{value:.2f}', ha='center', va='bottom')
@@ -55,8 +55,8 @@ def plot_dictionaries(dict_of_dicts, max_plots_per_row=3, colors=None):
 if __name__ == "__main__":
     # example usage
     dict_of_dicts = {
-        'Dict1': {'avg_n_stores': 1.886, 'avg_order_frequency': 4.55, 'retention_percentage': 0.5728, 'avg_aov': 63.51, 'avg_cm': 1.04, 'negative_cm_orders_percentage': 0.2893, 'prime_users_percentage': 0.0201},
-        'Dict2': {'avg_n_stores': 2.493, 'avg_order_frequency': 5.112, 'retention_percentage': 0.5764, 'avg_aov': 68.93, 'avg_cm': 1.22, 'negative_cm_orders_percentage': 0.264, 'prime_users_percentage': 0.0377}
+        'Dict1': {'avg_n_stores': 1.887, 'avg_order_frequency': 4.56, 'retention_percentage': 0.5731, 'avg_aov': 63.52, 'avg_cm': 1.13, 'negative_cm_orders_percentage': 0.2657, 'prime_users_percentage': 0.0202, 'promo_percentage': 0.43233},
+        'Dict2': {'avg_n_stores': 2.496, 'avg_order_frequency': 5.124, 'retention_percentage': 0.5769, 'avg_aov': 68.93, 'avg_cm': 1.33, 'negative_cm_orders_percentage': 0.2399, 'prime_users_percentage': 0.0377, 'promo_percentage': 0.45925}
     }
 
     colors = ['blue', 'green']

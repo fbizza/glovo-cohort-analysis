@@ -91,9 +91,18 @@ def compute_metrics(customers_dfs):
                         GROUP BY customer_id
                         """
 
+        query_percentage_promo_orders = f"""
+                        SELECT 
+                            1.00000 * count(DISTINCT CASE WHEN discount_subtype IS NOT NULL THEN o.order_id ELSE NULL END) / count(DISTINCT o.order_id) AS promo_orders_percentage
+                        FROM delta.central_order_descriptors_odp.order_descriptors_v2 o LEFT JOIN delta.growth_pricing_discounts_odp.pricing_discounts p ON p.order_id = o.order_id
+                        WHERE order_final_status = 'DeliveredStatus'
+                            AND order_parent_relationship_type IS NULL
+                            AND customer_id IN ({customer_ids_str})
+                        """
+
         # Run the queries
-        results = run_queries([query_stores, query_frequency, query_retention, query_aov_cm, query_negative_cm_percentage, query_count_prime_orders])
-        result_stores, result_frequency, result_retention, result_aov_cm, result_negative_cm_percentage, result_prime_orders = results
+        results = run_queries([query_stores, query_frequency, query_retention, query_aov_cm, query_negative_cm_percentage, query_count_prime_orders, query_percentage_promo_orders])
+        result_stores, result_frequency, result_retention, result_aov_cm, result_negative_cm_percentage, result_prime_orders, result_promo = results
         # Compute the metrics
         avg_n_stores = round(float(result_stores['n_stores'].mean()), 3)
         avg_order_frequency = round(float(result_frequency['order_frequency'].mean()), 3)
@@ -102,6 +111,7 @@ def compute_metrics(customers_dfs):
         avg_cm_eur = round(float(result_aov_cm['avg_contribution_margin_eur'].mean()), 2)
         negative_cm_orders_percentage = round(float(result_negative_cm_percentage['negative_cm_orders_percentage'].mean()), 4)
         prime_users_percentage = round(len(result_prime_orders[result_prime_orders['prime_orders_count'] > 0]) / len(customer_ids), 4)
+        promo_orders_percentage = float(result_promo['promo_orders_percentage'].iloc[0])
 
         # Save metrics in the dictionary
         metrics_dict[df.name] = {
@@ -111,7 +121,8 @@ def compute_metrics(customers_dfs):
             'avg_aov': avg_aov,
             'avg_cm': avg_cm_eur,
             'negative_cm_orders_percentage': negative_cm_orders_percentage,
-            'prime_users_percentage': prime_users_percentage
+            'prime_users_percentage': prime_users_percentage,
+            'promo_percentage': promo_orders_percentage
         }
     return metrics_dict
 
