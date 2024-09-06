@@ -9,7 +9,7 @@ Total_investment = 126344
 
 # Compute ROI for values of iNC ranging from 0 to the given iNC
 inc_values = np.arange(0, iNC + 1)
-roi_values = (CM * inc_values * Avg_LTO_NC) / Total_investment
+roi_values = ((CM * inc_values * Avg_LTO_NC) + (iNC * CM))/ Total_investment
 
 # Identify the first value of iNC that results in an ROI greater than 1
 first_inc_greater_than_1 = np.argmax(roi_values > 1)

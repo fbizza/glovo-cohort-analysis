@@ -17,7 +17,7 @@ def plot_dictionaries(dict_of_dicts, max_plots_per_row=3, colors=None):
     num_rows = math.ceil(num_sub_keys / max_plots_per_row)
     num_cols = min(num_sub_keys, max_plots_per_row)
 
-    fig, axes = plt.subplots(num_rows, num_cols, figsize=(5 * num_cols, 5 * num_rows))
+    fig, axes = plt.subplots(num_rows, num_cols, figsize=(3 * num_cols, 3 * num_rows))
 
     if num_rows > 1:
         axes = axes.flatten()
@@ -34,13 +34,13 @@ def plot_dictionaries(dict_of_dicts, max_plots_per_row=3, colors=None):
         # adjust y-axis to highlight differences
         min_val = min(values)
         max_val = max(values)
-        lower = min_val - 0.1 * max_val if min_val > 0 else min_val - 0.1 * abs(min_val)
-        upper = max_val + 0.1 * max_val
+        lower = min_val - 0.2 * max_val if min_val > 0 else min_val - 0.1 * abs(min_val)
+        upper = max_val + 0.2 * max_val
         axes[i].set_ylim(lower, upper)
 
         # annotate bars with their values
         for j, value in enumerate(values):
-            if sub_key in ['prime_users_percentage', 'retention_percentage', 'negative_cm_orders_percentage', 'promo_percentage']:
+            if sub_key in ['second_order_retention', 'negative_com_orders', 'prime_users_conversion', 'retention_percentage', 'negative_cm_orders'] or ('promo' in sub_key):
                 axes[i].text(j, value, f'{value*100:.2f}%', ha='center', va='bottom')
             else:
                 axes[i].text(j, value, f'{value:.2f}', ha='center', va='bottom')
@@ -55,8 +55,8 @@ def plot_dictionaries(dict_of_dicts, max_plots_per_row=3, colors=None):
 if __name__ == "__main__":
     # example usage
     dict_of_dicts = {
-        'Dict1': {'avg_n_stores': 1.887, 'avg_order_frequency': 4.56, 'retention_percentage': 0.5731, 'avg_aov': 63.52, 'avg_cm': 1.13, 'negative_cm_orders_percentage': 0.2657, 'prime_users_percentage': 0.0202, 'promo_percentage': 0.43233},
-        'Dict2': {'avg_n_stores': 2.496, 'avg_order_frequency': 5.124, 'retention_percentage': 0.5769, 'avg_aov': 68.93, 'avg_cm': 1.33, 'negative_cm_orders_percentage': 0.2399, 'prime_users_percentage': 0.0377, 'promo_percentage': 0.45925}
+        'Dict1': {'avg_n_stores': 1.889, 'avg_order_frequency': 4.571, 'second_order_retention': 0.5734, 'avg_aov': 63.51, 'avg_cm': 1.13, 'negative_cm_orders': 0.2656, 'prime_users_conversion': 0.0202, 'two_for_one_promo_orders': 0.005, 'mktg_promo_code_promo_orders': 0.0858, 'prime_promo_orders': 0.0327, 'percentage_discount_promo_orders': 0.0411, 'free_delivery_promo_orders': 0.0231, 'basket_discount_promo_orders': 0.003, 'segmentation_promo_orders': 0.0569, 'flat_delivery_promo_orders': 0.0081},
+        'Dict2': {'avg_n_stores': 2.499, 'avg_order_frequency': 5.137, 'second_order_retention': 0.5773, 'avg_aov': 68.94, 'avg_cm': 1.34, 'negative_cm_orders': 0.2399, 'prime_users_conversion': 0.0378, 'two_for_one_promo_orders': 0.0086, 'mktg_promo_code_promo_orders': 0.0432, 'prime_promo_orders': 0.0712, 'percentage_discount_promo_orders': 0.1091, 'free_delivery_promo_orders': 0.0416, 'basket_discount_promo_orders': 0.0057, 'segmentation_promo_orders': 0.0472, 'flat_delivery_promo_orders': 0.0222}
     }
 
     colors = ['blue', 'green']
