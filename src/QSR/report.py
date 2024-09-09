@@ -7,20 +7,21 @@ import os
 
 
 if __name__ == "__main__":
-    acquisition_start_date = '2024-01-01'
+    acquisition_start_date = '2024-01-15'
     acquisition_end_date = '2024-01-31'
     retention_start_date = acquisition_end_date
     retention_end_date = '2024-09-01'
-    store_names = ["McDonald''s", "KFC", "Domino''s Pizza", "Pizza Hut", "MAX Premium Burgers", "Burger King", "Subway by AMIC Energy", "Burger King®"]
-    qsr_customers, not_qsr_customers = get_qsr_data(acquisition_start_date, acquisition_end_date, store_names, update=True)
-    qsr_customers.name = 'qsr_customers'
-    not_qsr_customers.name = 'not_qsr_customers'
-    customers_dfs = [qsr_customers, not_qsr_customers]
+    store_names = ["KFC", "Domino''s Pizza", "Pizza Hut", "MAX Premium Burgers", "Burger King", "Subway by AMIC Energy", "Burger King®", "Telepizza"]
+    qsr_customers, not_qsr_customers, mc_donalds = get_qsr_data(acquisition_start_date, acquisition_end_date, store_names, update=True)
+    mc_donalds.name = 'McDonalds'
+    qsr_customers.name = 'QSR w/o McDo'
+    not_qsr_customers.name = 'Not QSR'
+    customers_dfs = [mc_donalds, qsr_customers, not_qsr_customers]
 
     # retention cohort
-    customer_cohort_names = ['QSR', 'NOT_QSR']
+    customer_cohort_names = ['McDonalds', 'QSR w/o McDo', 'Not QSR']
     retention_df = retention_since_given_period(retention_start_date, retention_end_date, customers_dfs, customer_cohort_names)
-    print(retention_df)
+    print(retention_df.to_string())
 
     # save dataframe
     output_dir = 'data/retention'

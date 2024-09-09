@@ -136,12 +136,14 @@ def compute_metrics(customers_dfs):
 
 # Example usage
 if __name__ == "__main__":
-    qsr_customers, not_qsr_customers = get_qsr_data('2024-01-01', '2024-01-31', ["McDonald''s"], update=False)
+    qsr_customers, not_qsr_customers, mc_do = get_qsr_data('2024-01-01', '2024-01-31', ["McDonald''s"], update=False)
     qsr_customers.name = 'qsr_customers'
     not_qsr_customers.name = 'not_qsr_customers'
-    customers_dfs = [qsr_customers, not_qsr_customers]
+    mc_do.name = 'McDo'
+    customers_dfs = [mc_do, qsr_customers, not_qsr_customers]
     metrics_dict = compute_metrics(customers_dfs)
 
+    print("Metrics for McDo customers:", metrics_dict['McDo'])
     print("Metrics for QSR customers:", metrics_dict['qsr_customers'])
     print("Metrics for non-QSR customers:", metrics_dict['not_qsr_customers'])
     plot_dictionaries(metrics_dict)
