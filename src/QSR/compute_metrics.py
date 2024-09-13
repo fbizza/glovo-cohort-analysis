@@ -4,7 +4,7 @@ from plot_results import plot_dictionaries
 from pprint import pprint
 
 def get_customer_ids_str(df):
-    """Convert customer IDs to a comma-separated string."""
+    """Convert customer IDs to a string for the SQL query"""
     customer_ids = df['customer_id'].astype(int).tolist()
     return ', '.join(str(customer_id) for customer_id in customer_ids)
 def build_queries(customer_ids_str):
@@ -120,7 +120,8 @@ def compute_metrics_for_cohort(df):
         'avg_cm': round(float(result_aov_cm['avg_contribution_margin_eur'].mean()), 2),
         'negative_cm_orders': round(float(result_negative_cm_percentage['negative_cm_orders_percentage'].mean()), 4),
         'prime_users_conversion': round(len(result_prime_orders[result_prime_orders['prime_orders_count'] > 0]) / len(df), 4),
-        '5y_lto': float(result_lto['avg_lto'].values[0])
+        '5y_lto': float(result_lto['avg_lto'].values[0]),
+        'cohort_size': df.shape[0],
     }
     promo_orders_percentage = {col: float(round(result_promo_types[col].iloc[0], 4)) for col in result_promo_types.columns}
     metrics.update(promo_orders_percentage)
