@@ -106,3 +106,17 @@ def retention_since_given_period(start_date, end_date, list_of_customers_df, cus
     df = pd.DataFrame(retentions, columns=months, index=customer_cohort_names)
 
     return df
+
+
+def clip_dataframes_to_smallest(df_list):
+    # Determine the length of the smallest dataframe
+    min_length = min(df.shape[0] for df in df_list)
+    minimum = min(min_length, 90000)
+    # Clip each dataframe to the smallest length and preserve the name
+    clipped_dfs = []
+    for df in df_list:
+        clipped_df = df.sample(n=minimum, random_state=29)
+        clipped_df.name = df.name
+        clipped_dfs.append(clipped_df)
+
+    return clipped_dfs
